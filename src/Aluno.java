@@ -1,7 +1,7 @@
 public class Aluno {
 
-    private String nome;
-    private double[] notas;
+    private final String nome;
+    private final double[] notas;
     private int faltas;
     private final int limiteFaltas;
 
@@ -53,6 +53,7 @@ public class Aluno {
     public String getNome() {
         return nome;
     }
+
     public int getFaltas() {
         return faltas;
     }
