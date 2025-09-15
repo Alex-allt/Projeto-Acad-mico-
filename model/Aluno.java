@@ -1,27 +1,31 @@
 public class Aluno {
-
-    private final String nome;
-    private final double[] notas;
+    private String nome;
+    private int quantidadeNotas;
+    private int limiteFaltas;
+    private double[] notas;
     private int faltas;
-    private final int limiteFaltas;
 
     public Aluno(String nome, int quantidadeNotas, int limiteFaltas) {
         this.nome = nome;
-        this.notas = new double[quantidadeNotas];
-        this.faltas = 0;
+        this.quantidadeNotas = quantidadeNotas;
         this.limiteFaltas = limiteFaltas;
+        this.notas = new double[quantidadeNotas];
+        this.faltas = 0;  // Inicializa as faltas com zero
     }
 
     public void adicionarNota(int indice, double nota) {
-        if (indice >= 0 && indice < notas.length) {
-            notas[indice] = nota;
-        } else {
-            System.out.println("Índice de nota inválido.");
+        if (indice >= 0 && indice < quantidadeNotas) {
+            this.notas[indice] = nota;
         }
     }
 
-    public void adicionarFalta() {
-        this.faltas++;
+    // Método modificado para aceitar um argumento e definir as faltas
+    public void adicionarFalta(int faltas) {
+        this.faltas = faltas;
+    }
+
+    public String getNome() {
+        return nome;
     }
 
     public double calcularMedia() {
@@ -29,32 +33,20 @@ public class Aluno {
         for (double nota : notas) {
             soma += nota;
         }
-        return soma / notas.length;
-    }
-
-    public boolean estaAprovado() {
-        return calcularMedia() >= 7.0 && faltas <= limiteFaltas;
-    }
-
-    public boolean reprovadoPorFalta() {
-        return faltas > limiteFaltas;
-    }
-
-    public String situacao() {
-        if (reprovadoPorFalta()) {
-            return "Reprovado por falta";
-        } else if (estaAprovado()) {
-            return "Aprovado";
-        } else {
-            return "Reprovado por nota";
-        }
-    }
-
-    public String getNome() {
-        return nome;
+        return soma / quantidadeNotas;
     }
 
     public int getFaltas() {
         return faltas;
+    }
+
+    public String situacao() {
+        if (faltas > limiteFaltas) {
+            return "Reprovado por faltas";
+        }
+        if (calcularMedia() < 6) {
+            return "Reprovado por média";
+        }
+        return "Aprovado";
     }
 }
